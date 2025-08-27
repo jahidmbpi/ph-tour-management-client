@@ -44,7 +44,7 @@ export default function Fotter() {
                   href="#"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-gray-700 transition hover:opacity-75"
+                  className="text-gray-700 dark:text-white transition hover:opacity-75"
                 >
                   <span className="sr-only">Instagram</span>
 
@@ -112,7 +112,7 @@ export default function Fotter() {
                   href="#"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-gray-700 transition hover:opacity-75"
+                  className="text-gray-700 dark:text-white transition hover:opacity-75"
                 >
                   <span className="sr-only">Dribbble</span>
 
@@ -135,13 +135,15 @@ export default function Fotter() {
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
             <div>
-              <p className="font-medium text-gray-900">Services</p>
+              <p className="font-medium text-gray-900 dark:text-white">
+                Services
+              </p>
 
-              <ul className="mt-6 space-y-4 text-sm">
+              <ul className="mt-6 space-y-4 text-sm dark:text-white">
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     1on1 Coaching{" "}
@@ -151,7 +153,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Company Review{" "}
@@ -161,7 +163,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Accounts Review{" "}
@@ -171,7 +173,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     HR Consulting{" "}
@@ -181,7 +183,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     SEO Optimisation{" "}
@@ -191,13 +193,15 @@ export default function Fotter() {
             </div>
 
             <div>
-              <p className="font-medium text-gray-900">Company</p>
+              <p className="font-medium text-gray-900 dark:text-white">
+                Company
+              </p>
 
-              <ul className="mt-6 space-y-4 text-sm">
+              <ul className="mt-6 space-y-4 text-sm dark:text-white">
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     About{" "}
@@ -207,7 +211,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Meet the Team{" "}
@@ -217,7 +221,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Accounts Review{" "}
@@ -227,13 +231,15 @@ export default function Fotter() {
             </div>
 
             <div>
-              <p className="font-medium text-gray-900">Helpful Links</p>
+              <p className="font-medium text-gray-900 dark:text-white">
+                Helpful Links
+              </p>
 
-              <ul className="mt-6 space-y-4 text-sm">
+              <ul className="mt-6 space-y-4 text-sm dark:text-white">
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Contact{" "}
@@ -243,7 +249,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     FAQs{" "}
@@ -253,7 +259,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Live Chat{" "}
@@ -263,13 +269,15 @@ export default function Fotter() {
             </div>
 
             <div>
-              <p className="font-medium text-gray-900 ">Legal</p>
+              <p className="font-medium text-gray-900 dark:text-white ">
+                Legal
+              </p>
 
-              <ul className="mt-6 space-y-4 text-sm">
+              <ul className="mt-6 space-y-4 text-sm dark:text-white">
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Accessibility{" "}
@@ -279,7 +287,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Returns Policy{" "}
@@ -289,7 +297,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     {" "}
                     Refund Policy{" "}
@@ -299,7 +307,7 @@ export default function Fotter() {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-700 transition hover:opacity-75"
+                    className="text-gray-700 dark:text-white transition hover:opacity-75"
                   >
                     Hiring-3 Statistics
                   </a>
@@ -309,7 +317,7 @@ export default function Fotter() {
           </div>
         </div>
 
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-white">
           &copy; 2022. Company Name. All rights reserved.
         </p>
       </div>
