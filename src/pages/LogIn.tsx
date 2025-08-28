@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
 import {
   Form,
   FormControl,
@@ -16,14 +17,19 @@ import type { HTMLAttributes } from "react";
 import z from "zod/v3";
 
 import imag from "../../src/assets/athentication/login.svg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
+
 import Password from "@/components/Password";
 import { useLoginMutation } from "@/redux/fetures/auth/auth.api";
+import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
 export default function LogIn({ className, ...props }: RegisterProps) {
   const [login] = useLoginMutation();
   const { reset } = useForm();
+
+  const navigate = useNavigate();
   const logInSchema = z.object({
     email: z.string().email({ message: "please provide a valid email" }),
     password: z
@@ -47,10 +53,15 @@ export default function LogIn({ className, ...props }: RegisterProps) {
 
   const onSubmit = async (data: z.infer<typeof logInSchema>) => {
     try {
-      const result = await login(data);
+      const result = await login(data).unwrap();
+
       console.log(result);
       reset();
     } catch (error) {
+      const err = error as FetchBaseQueryError;
+      if (err?.status === 401) {
+        navigate("/verify", { state: data.email });
+      }
       console.log(error);
     }
   };

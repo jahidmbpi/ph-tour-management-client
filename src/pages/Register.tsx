@@ -16,7 +16,7 @@ import type { HTMLAttributes } from "react";
 import z from "zod/v3";
 
 import imag from "../../src/assets/athentication/login.svg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Password from "@/components/Password";
 import { useRegisterMutation } from "@/redux/fetures/auth/auth.api";
 
@@ -25,6 +25,8 @@ type RegisterProps = HTMLAttributes<HTMLDivElement>;
 export default function Register({ className, ...props }: RegisterProps) {
   const [register] = useRegisterMutation();
   const { reset } = useForm();
+
+  const navigate = useNavigate();
   const registerSchema = z
     .object({
       name: z.string().min(2, {
@@ -78,6 +80,7 @@ export default function Register({ className, ...props }: RegisterProps) {
       console.log(result);
 
       reset();
+      navigate("/verify");
     } catch (error) {
       console.log(error);
     }
