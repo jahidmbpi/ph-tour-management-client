@@ -18,9 +18,11 @@ import z from "zod/v3";
 import imag from "../../src/assets/athentication/login.svg";
 import { Link } from "react-router";
 import Password from "@/components/Password";
+import { useRegisterMutation } from "@/redux/fetures/auth/auth.api";
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
 export default function Register({ className, ...props }: RegisterProps) {
+  const [register] = useRegisterMutation();
   const { reset } = useForm();
   const registerSchema = z
     .object({
@@ -62,9 +64,22 @@ export default function Register({ className, ...props }: RegisterProps) {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof registerSchema>) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+    try {
+      const userInfo = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+      console.log(userInfo);
+
+      const result = await register(userInfo);
+      console.log(result);
+
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
