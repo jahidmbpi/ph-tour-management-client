@@ -18,9 +18,11 @@ import z from "zod/v3";
 import imag from "../../src/assets/athentication/login.svg";
 import { Link } from "react-router";
 import Password from "@/components/Password";
+import { useLoginMutation } from "@/redux/fetures/auth/auth.api";
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
 export default function LogIn({ className, ...props }: RegisterProps) {
+  const [login] = useLoginMutation();
   const { reset } = useForm();
   const logInSchema = z.object({
     email: z.string().email({ message: "please provide a valid email" }),
@@ -43,9 +45,14 @@ export default function LogIn({ className, ...props }: RegisterProps) {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof logInSchema>) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: z.infer<typeof logInSchema>) => {
+    try {
+      const result = await login(data);
+      console.log(result);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">

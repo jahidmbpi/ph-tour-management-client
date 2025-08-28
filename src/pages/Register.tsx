@@ -19,6 +19,7 @@ import imag from "../../src/assets/athentication/login.svg";
 import { Link } from "react-router";
 import Password from "@/components/Password";
 import { useRegisterMutation } from "@/redux/fetures/auth/auth.api";
+
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
 export default function Register({ className, ...props }: RegisterProps) {
@@ -32,11 +33,11 @@ export default function Register({ className, ...props }: RegisterProps) {
       email: z.string().email({ message: "please provide a valid email" }),
       password: z
         .string()
-        .min(10, {
+        .min(5, {
           message:
             "password must be at least 10 characters or special charecter.",
         })
-        .max(20, {
+        .max(15, {
           message: "password exceed 20 charecter long",
         }),
       ConfrimPassword: z

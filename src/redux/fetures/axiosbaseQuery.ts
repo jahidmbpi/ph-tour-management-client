@@ -23,8 +23,8 @@ const axiosBaseQuery =
         params,
         headers,
       });
-      console.log("📤 Request Data:", data);
-      console.log("📥 Response Data:", result.data);
+      console.log(url, data, method);
+
       return { data: result.data };
     } catch (axiosError) {
       const err = axiosError as AxiosError;
