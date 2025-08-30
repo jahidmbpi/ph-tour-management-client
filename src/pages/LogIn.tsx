@@ -20,8 +20,9 @@ import imag from "../../src/assets/athentication/login.svg";
 import { Link, useNavigate } from "react-router-dom";
 
 import Password from "@/components/Password";
-import { useLoginMutation } from "@/redux/fetures/auth/auth.api";
+
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useLoginMutation } from "@/redux/fetures/auth/auth.api";
 
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
@@ -54,8 +55,7 @@ export default function LogIn({ className, ...props }: RegisterProps) {
   const onSubmit = async (data: z.infer<typeof logInSchema>) => {
     try {
       const result = await login(data).unwrap();
-
-      console.log(result);
+      console.log(data, result);
       reset();
     } catch (error) {
       const err = error as FetchBaseQueryError;
