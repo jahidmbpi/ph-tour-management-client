@@ -22,7 +22,10 @@ import {
   InputOTPSlot,
   InputOTPSeparator,
 } from "@/components/ui/input-otp";
-import { useSendOtpMutation } from "@/redux/fetures/auth/auth.api";
+import {
+  useSendOtpMutation,
+  useVerifyOtpMutation,
+} from "@/redux/fetures/auth/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -40,8 +43,9 @@ export default function Verify() {
   const navigate = useNavigate();
   const [email] = useState(location.state);
 
-  const [confrim, setConfrim] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const [sendOtp] = useSendOtpMutation();
+  const [verifyOtp] = useVerifyOtpMutation();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -56,26 +60,48 @@ export default function Verify() {
     }
   }, [email, navigate]);
 
-  const handeleConfrim = async () => {
+  const handleConfirm = async () => {
     try {
-      setConfrim(!confrim);
       const result = await sendOtp({ email }).unwrap();
-      console.log(result);
+      console.log("OTP sent:", result);
+      setConfirmed(true);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+  // Submit button: verify OTP
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      const result = await verifyOtp({ email, otp: data.pin }).unwrap();
+      console.log("OTP verified:", result);
+      // optionally redirect user after verification
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="grid place-content-center h-screen">
-      {confrim ? (
+      {!confirmed ? (
+        // Confirm Card
+        <Card className="w-[300px] max-w-sm">
+          <CardHeader>
+            <CardTitle>Verify your account</CardTitle>
+            <CardDescription>{`OTP will be sent to ${email}`}</CardDescription>
+          </CardHeader>
+
+          <CardFooter>
+            <Button onClick={handleConfirm} type="button" className="w-full">
+              Confirm
+            </Button>
+          </CardFooter>
+        </Card>
+      ) : (
+        // OTP Form Card
         <Card className="w-full max-w-sm">
           <CardHeader>
-            <CardTitle>verify your account </CardTitle>
+            <CardTitle>Enter OTP</CardTitle>
             <CardDescription>Enter the OTP sent to your email</CardDescription>
           </CardHeader>
 
@@ -99,7 +125,7 @@ export default function Verify() {
                           </InputOTPGroup>
                           <InputOTPGroup>
                             <InputOTPSlot index={1} />
-                          </InputOTPGroup>{" "}
+                          </InputOTPGroup>
                           <InputOTPGroup>
                             <InputOTPSlot index={2} />
                           </InputOTPGroup>
@@ -115,11 +141,9 @@ export default function Verify() {
                           </InputOTPGroup>
                         </InputOTP>
                       </FormControl>
-
                       <FormDescription>
-                        Please enter the one-time password sent to your phone.
+                        Please enter the one-time password sent to your email.
                       </FormDescription>
-
                       <FormMessage />
                     </FormItem>
                   )}
@@ -129,21 +153,8 @@ export default function Verify() {
           </CardContent>
 
           <CardFooter>
-            <Button form="verify-form" type="submit" className="w-full">
+            <Button type="submit" form="verify-form" className="w-full">
               Submit
-            </Button>
-          </CardFooter>
-        </Card>
-      ) : (
-        <Card className="w-[300px] max-w-sm">
-          <CardHeader>
-            <CardTitle>verify your account </CardTitle>
-            <CardDescription>{` OTP sent to your ${email}`}</CardDescription>
-          </CardHeader>
-
-          <CardFooter>
-            <Button onClick={handeleConfrim} type="button" className="w-full">
-              confirm
             </Button>
           </CardFooter>
         </Card>

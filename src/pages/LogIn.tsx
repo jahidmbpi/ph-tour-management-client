@@ -56,6 +56,9 @@ export default function LogIn({ className, ...props }: RegisterProps) {
     try {
       const result = await login(data).unwrap();
       console.log(data, result);
+      if (result.statusCode === 200 && result.success === true) {
+        navigate("/");
+      }
       reset();
     } catch (error) {
       const err = error as FetchBaseQueryError;
