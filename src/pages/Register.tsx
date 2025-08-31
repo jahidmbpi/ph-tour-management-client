@@ -1,9 +1,16 @@
+import { z } from "zod";
+import { Link, useNavigate } from "react-router-dom";
+import imag from "@/assets/athentication/login.svg";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
+import type { HTMLAttributes } from "react";
+import Password from "@/components/Password";
+import { useRegisterMutation } from "@/redux/fetures/auth/auth.api";
 import {
   Form,
   FormControl,
@@ -12,20 +19,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import type { HTMLAttributes } from "react";
-import z from "zod/v3";
-
-import imag from "../../src/assets/athentication/login.svg";
-import { Link, useNavigate } from "react-router";
-import Password from "@/components/Password";
-import { useRegisterMutation } from "@/redux/fetures/auth/auth.api";
 
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
 export default function Register({ className, ...props }: RegisterProps) {
   const [register] = useRegisterMutation();
   const { reset } = useForm();
-
   const navigate = useNavigate();
   const registerSchema = z
     .object({
@@ -67,7 +66,7 @@ export default function Register({ className, ...props }: RegisterProps) {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+  const handelRegister = async (data: z.infer<typeof registerSchema>) => {
     try {
       const userInfo = {
         name: data.name,
@@ -75,12 +74,10 @@ export default function Register({ className, ...props }: RegisterProps) {
         password: data.password,
       };
       console.log(userInfo);
-
-      const result = await register(userInfo);
+      const result = await register(userInfo).unwrap();
       console.log(result);
-
+      navigate("/login");
       reset();
-      navigate("/verify");
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +94,7 @@ export default function Register({ className, ...props }: RegisterProps) {
           <CardContent className="grid p-6 md:grid-cols-2 mx-auto items-center gap-4">
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(handelRegister)}
                 className="space-y-5 md:px-10"
               >
                 <FormField

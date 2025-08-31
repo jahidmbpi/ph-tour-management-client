@@ -59,13 +59,23 @@ export default function LogIn({ className, ...props }: RegisterProps) {
       if (result.statusCode === 200 && result.success === true) {
         navigate("/");
       }
+      if (result?.message === "otp verify succesfully") {
+        navigate("/login");
+      }
       reset();
     } catch (error) {
       const err = error as FetchBaseQueryError;
-      if (err?.status === 401) {
+      console.log(err);
+      console.log(error);
+      if (
+        "data" in err &&
+        err.data &&
+        typeof err.data === "object" &&
+        "message" in err.data &&
+        (err.data as { message?: string }).message === "you are not verified"
+      ) {
         navigate("/verify", { state: data.email });
       }
-      console.log(error);
     }
   };
   return (

@@ -42,8 +42,8 @@ export default function Verify() {
   const location = useLocation();
   const navigate = useNavigate();
   const [email] = useState(location.state);
-
   const [confirmed, setConfirmed] = useState(false);
+  const [timer, setTimer] = useState(120);
   const [sendOtp] = useSendOtpMutation();
   const [verifyOtp] = useVerifyOtpMutation();
 
@@ -60,25 +60,44 @@ export default function Verify() {
     }
   }, [email, navigate]);
 
-  const handleConfirm = async () => {
+  const handleSendOtp = async () => {
     try {
       const result = await sendOtp({ email }).unwrap();
       console.log("OTP sent:", result);
       setConfirmed(true);
+      setTimer(120);
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      if (email && confirmed) {
+        setTimer((prev) => (prev > 0 ? prev - 1 : 0));
+      }
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, [email, confirmed]);
+
   // Submit button: verify OTP
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+  const handelVerifyOtp = async (data: z.infer<typeof FormSchema>) => {
     try {
       const result = await verifyOtp({ email, otp: data.pin }).unwrap();
       console.log("OTP verified:", result);
-      // optionally redirect user after verification
+      if (result.data.massage === "otp verify succesfully") {
+        navigate("/login");
+      }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const reSendOtp = async () => {
+    const result = await sendOtp({ email }).unwrap();
+    console.log(result);
+    setTimer(120);
   };
 
   return (
@@ -92,7 +111,7 @@ export default function Verify() {
           </CardHeader>
 
           <CardFooter>
-            <Button onClick={handleConfirm} type="button" className="w-full">
+            <Button onClick={handleSendOtp} type="button" className="w-full">
               Confirm
             </Button>
           </CardFooter>
@@ -109,7 +128,7 @@ export default function Verify() {
             <Form {...form}>
               <form
                 id="verify-form"
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(handelVerifyOtp)}
                 className="w-full space-y-6"
               >
                 <FormField
@@ -142,7 +161,14 @@ export default function Verify() {
                         </InputOTP>
                       </FormControl>
                       <FormDescription>
-                        Please enter the one-time password sent to your email.
+                        <Button
+                          variant="link"
+                          disabled={timer !== 0}
+                          onClick={reSendOtp}
+                          className="p-0"
+                        >
+                          resend otp:{timer}
+                        </Button>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
