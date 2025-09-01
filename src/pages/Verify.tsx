@@ -43,7 +43,7 @@ export default function Verify() {
   const navigate = useNavigate();
   const [email] = useState(location.state);
   const [confirmed, setConfirmed] = useState(false);
-  const [timer, setTimer] = useState(120);
+  const [timer, setTimer] = useState(0);
   const [sendOtp] = useSendOtpMutation();
   const [verifyOtp] = useVerifyOtpMutation();
 
@@ -86,7 +86,11 @@ export default function Verify() {
     try {
       const result = await verifyOtp({ email, otp: data.pin }).unwrap();
       console.log("OTP verified:", result);
-      if (result.data.massage === "otp verify succesfully") {
+      if (
+        result.success === true &&
+        result.statusCode === 200 &&
+        result.massage === "otp verify succesfully"
+      ) {
         navigate("/login");
       }
     } catch (error) {

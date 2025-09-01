@@ -23,6 +23,7 @@ import Password from "@/components/Password";
 
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useLoginMutation } from "@/redux/fetures/auth/auth.api";
+import config from "@/config";
 
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
@@ -140,7 +141,8 @@ export default function LogIn({ className, ...props }: RegisterProps) {
                 </div>
                 <Button
                   className="w-full bg-black hover:bg-blue-700"
-                  type="submit"
+                  type="button"
+                  onClick={() => window.open(`${config.baseUrl}/auth/google`)}
                 >
                   google
                 </Button>
