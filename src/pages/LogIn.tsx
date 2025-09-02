@@ -56,7 +56,7 @@ export default function LogIn({ className, ...props }: RegisterProps) {
   const onSubmit = async (data: z.infer<typeof logInSchema>) => {
     try {
       const result = await login(data).unwrap();
-      console.log(data, result);
+      console.log(result);
       if (result.statusCode === 200 && result.success === true) {
         navigate("/");
       }

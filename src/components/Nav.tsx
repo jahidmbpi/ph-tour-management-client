@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import logo from "../assets/logoipsum-248.png";
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,9 +15,11 @@ import {
 import { ModeToggle } from "./mode.togoller";
 import { Link } from "react-router";
 import {
+  authApi,
   useLogOutMutation,
   useUserInfoQuery,
 } from "@/redux/fetures/auth/auth.api";
+import { useDispatch } from "react-redux";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -28,14 +31,16 @@ const navigationLinks = [
 
 export default function Nav() {
   const { data } = useUserInfoQuery(undefined);
-
+  console.log(data);
+  const dispatch = useDispatch();
   const [logOut] = useLogOutMutation();
-  console.log(logOut);
+
   const handelLogOut = async () => {
     console.log("hitting log out function");
     try {
       const res = await logOut(undefined).unwrap();
       console.log("logout success:", res);
+      dispatch(authApi.util.resetApiState());
     } catch (err) {
       console.log("logout failed:", err);
     }

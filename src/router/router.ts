@@ -5,6 +5,10 @@ import About from "../pages/About";
 import LogIn from "@/pages/LogIn";
 import Register from "@/pages/Register";
 import Verify from "@/pages/Verify";
+import DeshbordLayOut from "@/layOut/DeshbordLayOut";
+import { genareteRoute } from "@/utils/genareteRoutes";
+import { adminSideBar } from "./adminSideBar";
+import { userSideBar } from "./userSidebar";
 
 export const router = createBrowserRouter([
   {
@@ -32,5 +36,15 @@ export const router = createBrowserRouter([
   {
     path: "/verify",
     Component: Verify,
+  },
+  {
+    Component: DeshbordLayOut,
+    path: "/admin",
+    children: [...genareteRoute(adminSideBar)],
+  },
+  {
+    Component: DeshbordLayOut,
+    path: "/user",
+    children: [...genareteRoute(userSideBar)],
   },
 ]);
