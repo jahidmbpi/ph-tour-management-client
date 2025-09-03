@@ -118,6 +118,32 @@ export default function Nav() {
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
+
+                {data?.data?.role === "ADMIN" && (
+                  <Link
+                    to="/admin"
+                    className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                  >
+                    Dashboard
+                  </Link>
+                )}
+
+                {data?.data?.role === "USER" && (
+                  <Link
+                    to="/user"
+                    className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                  >
+                    Dashboard
+                  </Link>
+                )}
+                {data.data.role === "SUPER_ADMIN" && (
+                  <Link
+                    to="/user"
+                    className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                  >
+                    Dashboard
+                  </Link>
+                )}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
