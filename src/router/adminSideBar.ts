@@ -18,4 +18,20 @@ export const adminSideBar = [
       },
     ],
   },
+  {
+    title: "deshbord",
+    url: "#",
+    items: [
+      {
+        title: "analytics",
+        url: "/admin/analytics",
+        Component: Analytics,
+      },
+      {
+        title: "add tour",
+        url: "/admin/add-tour",
+        Component: Add_tour,
+      },
+    ],
+  },
 ];

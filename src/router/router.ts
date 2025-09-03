@@ -9,6 +9,7 @@ import DeshbordLayOut from "@/layOut/DeshbordLayOut";
 import { genareteRoute } from "@/utils/genareteRoutes";
 import { adminSideBar } from "./adminSideBar";
 import { userSideBar } from "./userSidebar";
+import Unauthrized from "@/pages/Unauthrized";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
   {
     path: "/verify",
     Component: Verify,
+  },
+  {
+    path: "/unauthorized",
+    Component: Unauthrized,
   },
   {
     Component: DeshbordLayOut,
