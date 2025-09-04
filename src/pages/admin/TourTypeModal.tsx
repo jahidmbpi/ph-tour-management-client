@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+
 import {
   Dialog,
   DialogClose,
@@ -62,7 +64,7 @@ export function TourTypeModal() {
             </Button>
           </DialogClose>
           <Button form="add-tour" type="submit">
-            Save changes
+            Add
           </Button>
         </DialogFooter>
       </DialogContent>
