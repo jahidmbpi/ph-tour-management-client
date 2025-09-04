@@ -136,7 +136,7 @@ export default function Nav() {
                     Dashboard
                   </Link>
                 )}
-                {data.data.role === "SUPER_ADMIN" && (
+                {data?.data?.role === "SUPER_ADMIN" && (
                   <Link
                     to="/user"
                     className="text-muted-foreground hover:text-primary py-1.5 font-medium"

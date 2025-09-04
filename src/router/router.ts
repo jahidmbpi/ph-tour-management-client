@@ -10,7 +10,6 @@ import { genareteRoute } from "@/utils/genareteRoutes";
 import { adminSideBar } from "./adminSideBar";
 import { userSideBar } from "./userSidebar";
 import Unauthrized from "@/pages/Unauthrized";
-import { withAuth } from "@/utils/withAuth";
 
 export const router = createBrowserRouter([
   {
@@ -44,7 +43,7 @@ export const router = createBrowserRouter([
     Component: Unauthrized,
   },
   {
-    Component: withAuth(DeshbordLayOut, "ADMIN"),
+    Component: DeshbordLayOut,
     path: "/admin",
     children: [...genareteRoute(adminSideBar)],
   },

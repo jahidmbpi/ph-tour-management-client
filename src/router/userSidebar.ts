@@ -1,4 +1,4 @@
-import Bookings from "@/pages/Bookings";
+import Bookings from "@/pages/user/Bookings";
 
 export const userSideBar = [
   {
