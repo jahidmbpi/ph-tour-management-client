@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -20,12 +21,38 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAddTourTypeMutation } from "@/redux/fetures/tour/tour.api";
 
 export function TourTypeModal() {
-  const form = useForm();
+  const [addTour] = useAddTourTypeMutation();
+  const tourTypeSchema = z.object({
+    name: z.string().min(1, "Tour type name is required"),
+  });
+  const form = useForm<z.infer<typeof tourTypeSchema>>({
+    resolver: zodResolver(tourTypeSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof tourTypeSchema>) => {
+    try {
+      console.log(data);
+      const result = await addTour(data);
+      console.log(result);
+
+      if (result.data.success === true) {
+        toast.success("Tour type created successfully!");
+        form.reset();
+      }
+    } catch (error: any) {
+      console.log(error.error?.data.message);
+      const errorMessage =
+        error?.error?.data?.message || "Something went wrong";
+      toast.error(`${errorMessage}`);
+    }
   };
   return (
     <Dialog>
@@ -40,7 +67,7 @@ export function TourTypeModal() {
           <form id="add-tour" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="tourTypeName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tour Type Name</FormLabel>
