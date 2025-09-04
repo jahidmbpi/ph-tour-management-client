@@ -27,7 +27,7 @@ export const adminSideBar = [
       {
         title: "add Division",
         url: "/admin/add-Division",
-        Component: withAuth(Add_Division, "ADMIN"),
+        Component: withAuth(Add_Division, "SUPER_ADMIN"),
       },
     ],
   },

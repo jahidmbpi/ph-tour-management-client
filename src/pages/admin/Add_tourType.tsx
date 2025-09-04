@@ -9,12 +9,17 @@ import {
 } from "@/components/ui/table";
 import { useTourTypeInfoQuery } from "@/redux/fetures/tour/tour.api";
 import { Trash2 } from "lucide-react";
+import { TourTypeModal } from "./TourTypeModal";
 
 export default function Add_tourType() {
   const { data } = useTourTypeInfoQuery(undefined);
-  console.log(data);
+
   return (
-    <div className="max-w-6xl w-full mx-auto px-5">
+    <div className="max-w-5xl w-full mx-auto px-5">
+      <div className=" flex justify-between my-8">
+        <h2 className="capitalize text-xl font-semibold"> add tour</h2>
+        <TourTypeModal />
+      </div>
       <Table>
         <TableHeader>
           <TableRow className="">
