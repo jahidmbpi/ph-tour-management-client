@@ -23,7 +23,17 @@ export const tourApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    removeTourType: builder.mutation({
+      query: (tourId) => ({
+        url: `/tourType/delete/${tourId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useAddTourTypeMutation, useTourTypeInfoQuery } = tourApi;
+export const {
+  useAddTourTypeMutation,
+  useTourTypeInfoQuery,
+  useRemoveTourTypeMutation,
+} = tourApi;

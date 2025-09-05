@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,12 +6,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useTourTypeInfoQuery } from "@/redux/fetures/tour/tour.api";
-import { Trash2 } from "lucide-react";
+import {
+  useRemoveTourTypeMutation,
+  useTourTypeInfoQuery,
+} from "@/redux/fetures/tour/tour.api";
+
 import { TourTypeModal } from "./TourTypeModal";
+import DeleteConfrim from "../public/DeleteConfrim";
+import { toast } from "sonner";
 
 export default function Add_tourType() {
   const { data } = useTourTypeInfoQuery(undefined);
+  const [removeTourType] = useRemoveTourTypeMutation();
+
+  const handelremoveTourType = async (tourId: string) => {
+    try {
+      const res = await removeTourType(tourId).unwrap();
+      console.log(res);
+      if (res.success) {
+        toast.success("Tour type delete successfully!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="max-w-5xl w-full mx-auto px-5">
@@ -32,9 +49,11 @@ export default function Add_tourType() {
             <TableRow key={item._id}>
               <TableCell className="font-medium w-full">{item.name}</TableCell>
               <TableCell>
-                <Button size="sm">
-                  <Trash2></Trash2>
-                </Button>
+                <DeleteConfrim onConfrim={() => handelremoveTourType(item._id)}>
+                  <button className="bg-red-500 text-white px-3 py-1 rounded">
+                    Delete
+                  </button>
+                </DeleteConfrim>
               </TableCell>
             </TableRow>
           ))}

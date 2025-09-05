@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
+import imag from "@/assets/athentication/login.svg";
 import {
   Form,
   FormControl,
@@ -16,21 +16,18 @@ import {
 import type { HTMLAttributes } from "react";
 import z from "zod/v3";
 
-import imag from "../../src/assets/athentication/login.svg";
 import { Link, useNavigate } from "react-router-dom";
-
-import Password from "@/components/Password";
 
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useLoginMutation } from "@/redux/fetures/auth/auth.api";
 import config from "@/config";
+import Password from "@/components/Password";
 
 type RegisterProps = HTMLAttributes<HTMLDivElement>;
 
 export default function LogIn({ className, ...props }: RegisterProps) {
   const [login] = useLoginMutation();
   const { reset } = useForm();
-
   const navigate = useNavigate();
   const logInSchema = z.object({
     email: z.string().email({ message: "please provide a valid email" }),
