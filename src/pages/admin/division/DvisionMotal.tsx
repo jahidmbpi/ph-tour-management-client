@@ -22,11 +22,13 @@ import {
 } from "@/components/ui/form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAddTourTypeMutation } from "@/redux/fetures/tour/tour.api";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUpload from "@/components/ImageUpload";
+import { useState } from "react";
 
 export function DiviionMotal() {
-  const [addTour] = useAddTourTypeMutation();
+  const [image, setImage] = useState<File | null>(null);
+  console.log(image);
   const tourTypeSchema = z.object({
     name: z.string().min(1, "Tour type name is required"),
     description: z.string().min(1, "division description is required"),
@@ -38,16 +40,15 @@ export function DiviionMotal() {
       description: "",
     },
   });
+
+  console.log("inside ad division modal", image);
   const onSubmit = async (data: z.infer<typeof tourTypeSchema>) => {
     try {
+      //   if (result.data.success === true) {
+      //     toast.success("Tour type created successfully!");
+      //     form.reset();
+      //   }
       console.log(data);
-      const result = await addTour(data);
-      console.log(result);
-
-      if (result.data.success === true) {
-        toast.success("Tour type created successfully!");
-        form.reset();
-      }
     } catch (error: any) {
       console.log(error.error?.data.message);
       const errorMessage =
@@ -102,6 +103,7 @@ export function DiviionMotal() {
               />
             </div>
           </form>
+          <ImageUpload onChange={setImage} />
         </Form>
         <DialogFooter>
           <DialogClose asChild>
