@@ -25,37 +25,47 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUpload from "@/components/ImageUpload";
 import { useState } from "react";
+import { useAddDivisionMutation } from "@/redux/fetures/division/division.api";
 
 export function DiviionMotal() {
   const [image, setImage] = useState<File | null>(null);
-  console.log(image);
-  const tourTypeSchema = z.object({
+
+  const [addDivision] = useAddDivisionMutation();
+
+  const divisionSchema = z.object({
     name: z.string().min(1, "Tour type name is required"),
     description: z.string().min(1, "division description is required"),
   });
-  const form = useForm<z.infer<typeof tourTypeSchema>>({
-    resolver: zodResolver(tourTypeSchema),
+  const form = useForm<z.infer<typeof divisionSchema>>({
+    resolver: zodResolver(divisionSchema),
     defaultValues: {
       name: "",
       description: "",
     },
   });
 
-  console.log("inside ad division modal", image);
-  const onSubmit = async (data: z.infer<typeof tourTypeSchema>) => {
+  const onSubmit = async (data: z.infer<typeof divisionSchema>) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+
+    if (image) {
+      formData.append("file", image);
+    }
+
     try {
-      //   if (result.data.success === true) {
-      //     toast.success("Tour type created successfully!");
-      //     form.reset();
-      //   }
-      console.log(data);
+      const res = await addDivision(formData).unwrap();
+      console.log(res);
+      toast.success("Division created successfully!");
+      form.reset();
+      setImage(null);
     } catch (error: any) {
-      console.log(error.error?.data.message);
       const errorMessage =
         error?.error?.data?.message || "Something went wrong";
-      toast.error(`${errorMessage}`);
+      toast.error(errorMessage);
     }
   };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
