@@ -23,6 +23,7 @@ import {
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddTourTypeMutation } from "@/redux/fetures/tour/tour.api";
+import { Textarea } from "@/components/ui/textarea";
 
 export function DiviionMotal() {
   const [addTour] = useAddTourTypeMutation();
@@ -90,9 +91,8 @@ export function DiviionMotal() {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="enter your  tour type name "
-                        type="text"
+                      <Textarea
+                        placeholder="enter your  division description "
                         {...field}
                       />
                     </FormControl>
