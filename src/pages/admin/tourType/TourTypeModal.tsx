@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { toast } from "sonner";
-
 import {
   Dialog,
   DialogClose,
@@ -36,7 +35,6 @@ export function TourTypeModal() {
       name: "",
     },
   });
-
   const onSubmit = async (data: z.infer<typeof tourTypeSchema>) => {
     try {
       console.log(data);
@@ -57,7 +55,7 @@ export function TourTypeModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Tour-Type</Button>
+        <Button variant="default">Add Tour-Type</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

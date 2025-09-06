@@ -1,8 +1,9 @@
-import Add_Division from "@/pages/admin/Add_Division";
+import Add_Division from "@/pages/admin/division/Add_Division";
 import { withAuth } from "./../utils/withAuth";
-import Add_tour from "@/pages/admin/Add_tour";
-import Add_tourType from "@/pages/admin/Add_tourType";
-import Analytics from "@/pages/admin/Analytics";
+import Add_tour from "@/pages/admin/tour/Add_tour";
+
+import Analytics from "@/pages/admin/analytics/Analytics";
+import Add_tourType from "@/pages/admin/tourType/Add_tourType";
 
 export const adminSideBar = [
   {

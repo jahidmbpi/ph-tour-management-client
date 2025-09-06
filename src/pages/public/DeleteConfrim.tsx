@@ -17,7 +17,6 @@ interface IProps {
 export default function DeleteConfrim({ children, onConfrim }: IProps) {
   const handelConfrim = () => {
     onConfrim();
-    console.log(" clicked");
   };
   return (
     <AlertDialog>

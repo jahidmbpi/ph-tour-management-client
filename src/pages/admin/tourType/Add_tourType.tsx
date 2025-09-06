@@ -11,9 +11,11 @@ import {
   useTourTypeInfoQuery,
 } from "@/redux/fetures/tour/tour.api";
 
-import { TourTypeModal } from "./TourTypeModal";
-import DeleteConfrim from "../public/DeleteConfrim";
 import { toast } from "sonner";
+import { TourTypeModal } from "./TourTypeModal";
+import DeleteConfrim from "@/pages/public/DeleteConfrim";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Add_tourType() {
   const { data } = useTourTypeInfoQuery(undefined);
@@ -50,9 +52,9 @@ export default function Add_tourType() {
               <TableCell className="font-medium w-full">{item.name}</TableCell>
               <TableCell>
                 <DeleteConfrim onConfrim={() => handelremoveTourType(item._id)}>
-                  <button className="bg-red-500 text-white px-3 py-1 rounded">
-                    Delete
-                  </button>
+                  <Button>
+                    <Trash2></Trash2>
+                  </Button>
                 </DeleteConfrim>
               </TableCell>
             </TableRow>
