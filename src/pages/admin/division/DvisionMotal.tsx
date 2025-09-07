@@ -29,13 +29,12 @@ import { useAddDivisionMutation } from "@/redux/fetures/division/division.api";
 
 export function DiviionMotal() {
   const [image, setImage] = useState<File | null>(null);
-
   const [addDivision] = useAddDivisionMutation();
-
   const divisionSchema = z.object({
     name: z.string().min(1, "Tour type name is required"),
     description: z.string().min(1, "division description is required"),
   });
+
   const form = useForm<z.infer<typeof divisionSchema>>({
     resolver: zodResolver(divisionSchema),
     defaultValues: {
@@ -45,21 +44,22 @@ export function DiviionMotal() {
   });
 
   const onSubmit = async (data: z.infer<typeof divisionSchema>) => {
+    console.log("click");
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
-
-    if (image) {
-      formData.append("file", image);
-    }
+    console.log({ image });
+    formData.append("file", image as File);
 
     try {
+      console.log(formData);
       const res = await addDivision(formData).unwrap();
       console.log(res);
       toast.success("Division created successfully!");
-      form.reset();
-      setImage(null);
+      // form.reset();
+      // setImage(null);
     } catch (error: any) {
+      console.log(error);
       const errorMessage =
         error?.error?.data?.message || "Something went wrong";
       toast.error(errorMessage);

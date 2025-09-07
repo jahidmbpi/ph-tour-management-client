@@ -71,6 +71,7 @@ export default function ImageUpload({ onChange }) {
                 SVG, PNG, JPG or GIF (max. {maxSizeMB}MB)
               </p>
               <Button
+                type="button"
                 variant="outline"
                 className="mt-4"
                 onClick={openFileDialog}
