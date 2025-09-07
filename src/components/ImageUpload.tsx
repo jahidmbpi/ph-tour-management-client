@@ -4,7 +4,11 @@ import { useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 
-export default function ImageUpload({ onChange }) {
+interface ImageUploadProps {
+  onChange: (file: File | null) => void;
+}
+
+export default function ImageUpload({ onChange }: ImageUploadProps) {
   const maxSizeMB = 2;
   const maxSize = maxSizeMB * 1024 * 1024;
 
@@ -26,7 +30,7 @@ export default function ImageUpload({ onChange }) {
   const previewUrl = files[0]?.preview || null;
 
   useEffect(() => {
-    if (files.length > 0) {
+    if (files.length > 0 && files[0].file instanceof File) {
       onChange(files[0].file);
     } else {
       onChange(null);
