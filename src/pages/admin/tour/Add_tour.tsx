@@ -35,25 +35,21 @@ import { useTourTypeInfoQuery } from "@/redux/fetures/tour/tour.api";
 import { formatISO } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
 import React from "react";
-
 import { useForm } from "react-hook-form";
 
 export default function Add_tour() {
-  const [startDate, setStartDate] = React.useState<Date | undefined>();
-  const [endDate, setEndDate] = React.useState<Date | undefined>();
   const [startOpen, setStartOpen] = React.useState(false);
   const [endOpen, setEndOpen] = React.useState(false);
 
   const { data: tourTypeData } = useTourTypeInfoQuery(undefined);
-  console.log(tourTypeData);
 
   const form = useForm({
     defaultValues: {
       name: "",
       tourTypeId: "",
       DivisionId: "",
-      startDate: "",
-      endDate: "",
+      startDate: undefined,
+      endDate: undefined,
       description: "",
     },
   });
@@ -61,33 +57,34 @@ export default function Add_tour() {
   const onSubmitHandelar = (data: any) => {
     const tourdata = {
       ...data,
-      startdate: formatISO(data.startDate),
-      enddate: formatISO(data.endDate),
+      startDate: data.startDate ? formatISO(data.startDate) : null,
+      endDate: data.endDate ? formatISO(data.endDate) : null,
     };
-    console.log(tourdata);
+    console.log("✅ Final Submit Data:", tourdata);
     form.reset();
   };
 
   return (
-    <div className=" flex  justify-center items-center mx-auto w-full h-screen">
+    <div className="flex justify-center items-center mx-auto w-full h-screen">
       <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle>add tour</CardTitle>
+          <CardTitle>Add Tour</CardTitle>
           <CardDescription>add a new tour type to the system</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form id="add-tour" onSubmit={form.handleSubmit(onSubmitHandelar)}>
-              <div className=" space-y-3">
+              <div className="space-y-3">
+                {/* Tour Title */}
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>tour title</FormLabel>
+                      <FormLabel>Tour Title</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="enter your  tour type name "
+                          placeholder="Enter your tour title"
                           type="text"
                           {...field}
                         />
@@ -96,27 +93,29 @@ export default function Add_tour() {
                     </FormItem>
                   )}
                 />
-                <div className=" flex flex-col sm:flex-row gap-4">
+
+                {/* Tour Type + Division */}
+                <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
                     <FormField
                       control={form.control}
                       name="tourTypeId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>tour type</FormLabel>
+                          <FormLabel>Tour Type</FormLabel>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <FormControl>
                               <SelectTrigger className="w-full">
-                                <SelectValue />
+                                <SelectValue placeholder="Select type" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                               {tourTypeData?.data?.map(
                                 (item: { _id: string; name: string }) => (
-                                  <SelectItem value={item._id}>
+                                  <SelectItem key={item._id} value={item._id}>
                                     {item.name}
                                   </SelectItem>
                                 )
@@ -137,17 +136,17 @@ export default function Add_tour() {
                           <FormLabel>Division</FormLabel>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <FormControl>
                               <SelectTrigger className="w-full">
-                                <SelectValue />
+                                <SelectValue placeholder="Select division" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                               {tourTypeData?.data?.map(
                                 (item: { _id: string; name: string }) => (
-                                  <SelectItem value={item._id}>
+                                  <SelectItem key={item._id} value={item._id}>
                                     {item.name}
                                   </SelectItem>
                                 )
@@ -160,6 +159,8 @@ export default function Add_tour() {
                     />
                   </div>
                 </div>
+
+                {/* Start Date + End Date */}
                 <div className="flex gap-4 w-full">
                   <FormField
                     control={form.control}
@@ -171,24 +172,21 @@ export default function Add_tour() {
                           <PopoverTrigger asChild>
                             <Button
                               variant="outline"
-                              id="start-date"
                               className="w-full justify-between font-normal"
                             >
-                              {startDate
-                                ? startDate.toLocaleDateString()
+                              {field.value
+                                ? new Date(field.value).toLocaleDateString()
                                 : "Select start date"}
                               <ChevronDownIcon />
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0" align="start">
                             <Calendar
-                              {...field}
                               mode="single"
-                              selected={startDate}
+                              selected={field.value}
                               onSelect={(date) => {
-                                setStartDate(date);
-                                setStartOpen(false);
                                 field.onChange(date);
+                                setStartOpen(false);
                               }}
                             />
                           </PopoverContent>
@@ -208,24 +206,21 @@ export default function Add_tour() {
                           <PopoverTrigger asChild>
                             <Button
                               variant="outline"
-                              id="end-date"
                               className="w-full justify-between font-normal"
                             >
-                              {endDate
-                                ? endDate.toLocaleDateString()
+                              {field.value
+                                ? new Date(field.value).toLocaleDateString()
                                 : "Select end date"}
                               <ChevronDownIcon />
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0" align="start">
                             <Calendar
-                              {...field}
                               mode="single"
-                              selected={endDate}
+                              selected={field.value}
                               onSelect={(date) => {
-                                setEndDate(date);
-                                setEndOpen(false);
                                 field.onChange(date);
+                                setEndOpen(false);
                               }}
                             />
                           </PopoverContent>
@@ -236,6 +231,7 @@ export default function Add_tour() {
                   />
                 </div>
 
+                {/* Description */}
                 <FormField
                   control={form.control}
                   name="description"
@@ -244,7 +240,7 @@ export default function Add_tour() {
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="enter your  division description "
+                          placeholder="Enter tour description"
                           {...field}
                         />
                       </FormControl>
@@ -258,7 +254,7 @@ export default function Add_tour() {
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <Button form="add-tour" type="submit" className="w-full">
-            add tour
+            Add Tour
           </Button>
         </CardFooter>
       </Card>
