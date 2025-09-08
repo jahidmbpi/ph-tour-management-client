@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useDivisionInfoQuery } from "@/redux/fetures/division/division.api";
 import { useTourTypeInfoQuery } from "@/redux/fetures/tour/tour.api";
 import { formatISO } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
@@ -42,6 +43,8 @@ export default function Add_tour() {
   const [endOpen, setEndOpen] = React.useState(false);
 
   const { data: tourTypeData } = useTourTypeInfoQuery(undefined);
+  const { data: divisionData } = useDivisionInfoQuery(undefined);
+  console.log(divisionData?.data?.data);
 
   const form = useForm({
     defaultValues: {
@@ -60,7 +63,7 @@ export default function Add_tour() {
       startDate: data.startDate ? formatISO(data.startDate) : null,
       endDate: data.endDate ? formatISO(data.endDate) : null,
     };
-    console.log("✅ Final Submit Data:", tourdata);
+    console.log(tourdata);
     form.reset();
   };
 
@@ -144,7 +147,7 @@ export default function Add_tour() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {tourTypeData?.data?.map(
+                              {divisionData?.data?.data?.map(
                                 (item: { _id: string; name: string }) => (
                                   <SelectItem key={item._id} value={item._id}>
                                     {item.name}
