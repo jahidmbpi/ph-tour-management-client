@@ -24,9 +24,8 @@ import { useDispatch } from "react-redux";
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home", active: true },
-  { href: "/login", label: "login" },
-  { href: "/register", label: "register" },
   { href: "/about", label: "About" },
+  { href: "/tour", label: "Tours" },
 ];
 
 export default function Nav() {

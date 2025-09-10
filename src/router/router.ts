@@ -7,10 +7,11 @@ import { genareteRoute } from "@/utils/genareteRoutes";
 import { adminSideBar } from "./adminSideBar";
 import { userSideBar } from "./userSidebar";
 import Unauthrized from "@/pages/public/Unauthrized";
-import Home from "@/pages/public/Home";
+import Home from "@/pages/home/Home";
 import About from "@/pages/public/About";
 import Register from "@/pages/public/Register";
 import LogIn from "@/pages/public/LogIn";
+import Tour from "@/pages/tour/Tour";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         Component: About,
+      },
+      {
+        path: "/tour",
+        Component: Tour,
       },
     ],
   },

@@ -9,7 +9,7 @@ export default function CommonLayOut() {
   return (
     <div className="min-h-screen flex flex-col">
       <Nav></Nav>
-      <div className="grow-1">
+      <div className="grow-1 mx-auto max-w-7xl w-full">
         <Outlet></Outlet>
       </div>
       <Fotter></Fotter>
