@@ -33,11 +33,11 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useDivisionInfoQuery } from "@/redux/fetures/division/division.api";
-// import { useCreateTourMutation } from "@/redux/fetures/tour/tour.api";
+import { useCreateTourMutation } from "@/redux/fetures/tour/tour.api";
 import { useTourTypeInfoQuery } from "@/redux/fetures/tourType/tourType.api";
 
 import { formatISO } from "date-fns";
-import { ChevronDownIcon, Trash2 } from "lucide-react";
+import { ChevronDownIcon, Plus, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -47,7 +47,7 @@ export default function Add_tour() {
   const [images, setImages] = useState<File[] | []>([]);
   const { data: tourTypeData } = useTourTypeInfoQuery(undefined);
   const { data: divisionData } = useDivisionInfoQuery(undefined);
-  // const [createTour] = useCreateTourMutation();
+  const [createTour] = useCreateTourMutation();
 
   type TourFormValues = {
     title: string;
@@ -57,6 +57,7 @@ export default function Add_tour() {
     endDate?: Date;
     description: string;
     included: { value: string }[];
+    excluded: { value: string }[];
   };
 
   const form = useForm<TourFormValues>({
@@ -68,6 +69,7 @@ export default function Add_tour() {
       endDate: undefined,
       description: "",
       included: [{ value: "" }],
+      excluded: [{ value: "" }],
     },
   });
 
@@ -75,7 +77,14 @@ export default function Add_tour() {
     control: form.control,
     name: "included",
   });
-
+  const {
+    fields: exludedFields,
+    append: excludedAppend,
+    remove: excludedRemove,
+  } = useFieldArray({
+    control: form.control,
+    name: "excluded",
+  });
   const onSubmitHandelar = async (data: any) => {
     const formData = new FormData();
     const tourdata = {
@@ -83,6 +92,7 @@ export default function Add_tour() {
       startDate: formatISO(data.startDate),
       endDate: formatISO(data.endDate),
       included: data.included.map((item: { value: string }) => item.value),
+      excluded: data.excluded.map((item: { value: string }) => item.value),
     };
     formData.append("data", JSON.stringify(tourdata));
 
@@ -95,13 +105,13 @@ export default function Add_tour() {
       console.log(key, value);
     }
     console.log(tourdata);
-    // try {
-    //   const res = await createTour(formData).unwrap();
-    //   console.log(res);
-    //   // form.reset();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await createTour(formData).unwrap();
+      console.log(res);
+      // form.reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -299,9 +309,17 @@ export default function Add_tour() {
             </form>
             <div className="mt-5">
               <div className="space-y-4">
-                <Button type="button" onClick={() => append({ value: "" })}>
-                  add include
-                </Button>
+                <div className="flex justify-between">
+                  <p>included</p>
+                  <Button
+                    size="icon"
+                    type="button"
+                    variant="outline"
+                    onClick={() => append({ value: "" })}
+                  >
+                    <Plus />
+                  </Button>
+                </div>
                 {fields.map((field, index) => (
                   <div className="flex gap-2">
                     <FormField
@@ -318,6 +336,39 @@ export default function Add_tour() {
                       )}
                     />
                     <Button type="button" onClick={() => remove(index)}>
+                      <Trash2></Trash2>
+                    </Button>
+                  </div>
+                ))}
+              </div>{" "}
+              <div className="space-y-4 mt-5">
+                <div className="flex justify-between">
+                  <p>Excluded</p>
+                  <Button
+                    size="icon"
+                    type="button"
+                    variant="outline"
+                    onClick={() => excludedAppend({ value: "" })}
+                  >
+                    <Plus />
+                  </Button>
+                </div>
+                {exludedFields.map((field, index) => (
+                  <div className="flex gap-2">
+                    <FormField
+                      key={field.id}
+                      control={form.control}
+                      name={`excluded.${index}.value`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input type="text" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="button" onClick={() => excludedRemove(index)}>
                       <Trash2></Trash2>
                     </Button>
                   </div>
