@@ -9,7 +9,7 @@ import {
 import {
   useRemoveTourTypeMutation,
   useTourTypeInfoQuery,
-} from "@/redux/fetures/tour/tour.api";
+} from "@/redux/fetures/tourType/tourType.api";
 
 import { toast } from "sonner";
 import { TourTypeModal } from "./TourTypeModal";

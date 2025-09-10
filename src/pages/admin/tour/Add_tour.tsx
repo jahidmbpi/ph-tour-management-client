@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import MultipulImageUpload from "@/components/MultipulImageUpload";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -32,39 +33,75 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useDivisionInfoQuery } from "@/redux/fetures/division/division.api";
-import { useTourTypeInfoQuery } from "@/redux/fetures/tour/tour.api";
+// import { useCreateTourMutation } from "@/redux/fetures/tour/tour.api";
+import { useTourTypeInfoQuery } from "@/redux/fetures/tourType/tourType.api";
+
 import { formatISO } from "date-fns";
-import { ChevronDownIcon } from "lucide-react";
-import React from "react";
-import { useForm } from "react-hook-form";
+import { ChevronDownIcon, Trash2 } from "lucide-react";
+import React, { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 
 export default function Add_tour() {
   const [startOpen, setStartOpen] = React.useState(false);
   const [endOpen, setEndOpen] = React.useState(false);
-
+  const [images, setImages] = useState<File[] | []>([]);
   const { data: tourTypeData } = useTourTypeInfoQuery(undefined);
   const { data: divisionData } = useDivisionInfoQuery(undefined);
-  console.log(divisionData?.data?.data);
+  // const [createTour] = useCreateTourMutation();
 
-  const form = useForm({
+  type TourFormValues = {
+    title: string;
+    tourType: string;
+    division: string;
+    startDate?: Date;
+    endDate?: Date;
+    description: string;
+    included: { value: string }[];
+  };
+
+  const form = useForm<TourFormValues>({
     defaultValues: {
-      name: "",
-      tourTypeId: "",
-      DivisionId: "",
+      title: "",
+      tourType: "",
+      division: "",
       startDate: undefined,
       endDate: undefined,
       description: "",
+      included: [{ value: "" }],
     },
   });
 
-  const onSubmitHandelar = (data: any) => {
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "included",
+  });
+
+  const onSubmitHandelar = async (data: any) => {
+    const formData = new FormData();
     const tourdata = {
       ...data,
-      startDate: data.startDate ? formatISO(data.startDate) : null,
-      endDate: data.endDate ? formatISO(data.endDate) : null,
+      startDate: formatISO(data.startDate),
+      endDate: formatISO(data.endDate),
+      included: data.included.map((item: { value: string }) => item.value),
     };
+    formData.append("data", JSON.stringify(tourdata));
+
+    if (images && images.length > 0) {
+      images.forEach((file) => {
+        formData.append("files", file as File);
+      });
+    }
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
     console.log(tourdata);
-    form.reset();
+    // try {
+    //   const res = await createTour(formData).unwrap();
+    //   console.log(res);
+    //   // form.reset();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
@@ -81,7 +118,7 @@ export default function Add_tour() {
                 {/* Tour Title */}
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="title"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Tour Title</FormLabel>
@@ -102,7 +139,7 @@ export default function Add_tour() {
                   <div className="flex-1">
                     <FormField
                       control={form.control}
-                      name="tourTypeId"
+                      name="tourType"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Tour Type</FormLabel>
@@ -133,7 +170,7 @@ export default function Add_tour() {
                   <div className="flex-1">
                     <FormField
                       control={form.control}
-                      name="DivisionId"
+                      name="division"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Division</FormLabel>
@@ -187,6 +224,12 @@ export default function Add_tour() {
                             <Calendar
                               mode="single"
                               selected={field.value}
+                              disabled={(date) =>
+                                date <
+                                new Date(
+                                  new Date().setDate(new Date().getDate() - 1)
+                                )
+                              }
                               onSelect={(date) => {
                                 field.onChange(date);
                                 setStartOpen(false);
@@ -251,8 +294,36 @@ export default function Add_tour() {
                     </FormItem>
                   )}
                 />
+                <MultipulImageUpload onChange={setImages} />
               </div>
             </form>
+            <div className="mt-5">
+              <div className="space-y-4">
+                <Button type="button" onClick={() => append({ value: "" })}>
+                  add include
+                </Button>
+                {fields.map((field, index) => (
+                  <div className="flex gap-2">
+                    <FormField
+                      key={field.id}
+                      control={form.control}
+                      name={`included.${index}.value`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input type="text" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="button" onClick={() => remove(index)}>
+                      <Trash2></Trash2>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </Form>
         </CardContent>
         <CardFooter className="flex-col gap-2">

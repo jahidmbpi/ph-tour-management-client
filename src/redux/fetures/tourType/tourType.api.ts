@@ -7,13 +7,13 @@ export interface IResponse<T> {
   data: T;
 }
 
-export const tourApi = baseApi.injectEndpoints({
+export const tourTypeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createTour: builder.mutation({
-      query: (tourInfo) => ({
-        url: "/tour/create-tour",
+    addTourType: builder.mutation({
+      query: (tourName) => ({
+        url: "/tourType/create-tour-type",
         method: "POST",
-        data: tourInfo,
+        data: tourName,
       }),
     }),
 
@@ -33,7 +33,7 @@ export const tourApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useCreateTourMutation,
+  useAddTourTypeMutation,
   useTourTypeInfoQuery,
   useRemoveTourTypeMutation,
-} = tourApi;
+} = tourTypeApi;

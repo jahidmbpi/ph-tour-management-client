@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAddTourTypeMutation } from "@/redux/fetures/tour/tour.api";
+import { useAddTourTypeMutation } from "@/redux/fetures/tourType/tourType.api";
 
 export function TourTypeModal() {
   const [addTour] = useAddTourTypeMutation();

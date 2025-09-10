@@ -3,9 +3,6 @@ import axios from "axios";
 export const axiousInstance = axios.create({
   baseURL: config.baseUrl,
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 // Add a request interceptor
 axiousInstance.interceptors.request.use(

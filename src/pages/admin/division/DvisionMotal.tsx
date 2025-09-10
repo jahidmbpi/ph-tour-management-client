@@ -44,15 +44,13 @@ export function DiviionMotal() {
   });
 
   const onSubmit = async (data: z.infer<typeof divisionSchema>) => {
-    console.log("click");
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    console.log({ image });
+    formData.append("data", JSON.stringify(data));
     formData.append("file", image as File);
-
     try {
-      console.log(formData);
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
       const res = await addDivision(formData).unwrap();
       console.log(res);
       toast.success("Division created successfully!");
