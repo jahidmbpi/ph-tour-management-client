@@ -58,6 +58,14 @@ export default function Add_tour() {
     description: string;
     included: { value: string }[];
     excluded: { value: string }[];
+    amenities: { value: string }[];
+    tourPlan: { value: string }[];
+    maxGuest: number;
+    minAge: number;
+    departureLocation: string;
+    arrivalLocation: string;
+    location: string;
+    costFrom: number;
   };
 
   const form = useForm<TourFormValues>({
@@ -70,6 +78,14 @@ export default function Add_tour() {
       description: "",
       included: [{ value: "" }],
       excluded: [{ value: "" }],
+      amenities: [{ value: "" }],
+      tourPlan: [{ value: "" }],
+      maxGuest: 3,
+      minAge: 18,
+      departureLocation: "Dhaka Bus Terminal",
+      arrivalLocation: "Dhaka Bus Terminal",
+      location: "cox bazar",
+      costFrom: 3500,
     },
   });
 
@@ -85,6 +101,25 @@ export default function Add_tour() {
     control: form.control,
     name: "excluded",
   });
+
+  const {
+    fields: exludAmenities,
+    append: amenitiesAppend,
+    remove: amenitiesRemove,
+  } = useFieldArray({
+    control: form.control,
+    name: "amenities",
+  });
+
+  const {
+    fields: exludTourPlan,
+    append: tourPlanAppend,
+    remove: tourPlanRemove,
+  } = useFieldArray({
+    control: form.control,
+    name: "tourPlan",
+  });
+
   const onSubmitHandelar = async (data: any) => {
     const formData = new FormData();
     const tourdata = {
@@ -93,6 +128,8 @@ export default function Add_tour() {
       endDate: formatISO(data.endDate),
       included: data.included.map((item: { value: string }) => item.value),
       excluded: data.excluded.map((item: { value: string }) => item.value),
+      amenities: data.amenities.map((item: { value: string }) => item.value),
+      tourPlan: data.tourPlan.map((item: { value: string }) => item.value),
     };
     formData.append("data", JSON.stringify(tourdata));
 
@@ -304,6 +341,96 @@ export default function Add_tour() {
                     </FormItem>
                   )}
                 />
+                <div className=" flex justify-between">
+                  <FormField
+                    control={form.control}
+                    name="maxGuest"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel> max guest</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your tour title"
+                            type="text"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="minAge"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel> Min Age</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your tour title"
+                            type="text"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className=" flex justify-between">
+                  <FormField
+                    control={form.control}
+                    name="departureLocation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel> Deperture location</FormLabel>
+                        <FormControl>
+                          <Input placeholder="" type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="arrivalLocation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel> Arrivel location</FormLabel>
+                        <FormControl>
+                          <Input placeholder="" type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>location</FormLabel>
+                      <FormControl>
+                        <Input placeholder="" type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="costFrom"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>costFrom</FormLabel>
+                      <FormControl>
+                        <Input placeholder="" type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <MultipulImageUpload onChange={setImages} />
               </div>
             </form>
@@ -369,6 +496,75 @@ export default function Add_tour() {
                       )}
                     />
                     <Button type="button" onClick={() => excludedRemove(index)}>
+                      <Trash2></Trash2>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-4 mt-5">
+                <div className="flex justify-between">
+                  <p>Excluded</p>
+                  <Button
+                    size="icon"
+                    type="button"
+                    variant="outline"
+                    onClick={() => amenitiesAppend({ value: "" })}
+                  >
+                    <Plus />
+                  </Button>
+                </div>
+                {exludAmenities.map((field, index) => (
+                  <div className="flex gap-2">
+                    <FormField
+                      key={field.id}
+                      control={form.control}
+                      name={`amenities.${index}.value`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input type="text" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => amenitiesRemove(index)}
+                    >
+                      <Trash2></Trash2>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-4 mt-5">
+                <div className="flex justify-between">
+                  <p>tourPlan</p>
+                  <Button
+                    size="icon"
+                    type="button"
+                    variant="outline"
+                    onClick={() => tourPlanAppend({ value: "" })}
+                  >
+                    <Plus />
+                  </Button>
+                </div>
+                {exludTourPlan.map((field, index) => (
+                  <div className="flex gap-2">
+                    <FormField
+                      key={field.id}
+                      control={form.control}
+                      name={`tourPlan.${index}.value`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input type="text" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="button" onClick={() => tourPlanRemove(index)}>
                       <Trash2></Trash2>
                     </Button>
                   </div>
