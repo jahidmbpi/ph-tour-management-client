@@ -12,7 +12,7 @@ import About from "@/pages/public/About";
 import Register from "@/pages/public/Register";
 import LogIn from "@/pages/public/LogIn";
 import Tour from "@/pages/tour/Tour";
-import TourDetails from "@/pages/viewDetails/TourDetails";
+import TourDetails from "@/pages/tour/TourDetails";
 
 export const router = createBrowserRouter([
   {

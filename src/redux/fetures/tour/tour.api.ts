@@ -19,10 +19,11 @@ export const tourApi = baseApi.injectEndpoints({
     }),
 
     allTour: builder.query<TourListResponse, unknown>({
-      query: (info) => ({
+      query: (params) => ({
         url: "/tour/allTour",
         method: "GET",
-        data: info,
+        params: params,
+        providesTags: ["TOUR"],
       }),
     }),
     removeTourType: builder.mutation({
