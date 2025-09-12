@@ -3,7 +3,6 @@ import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
-
 interface ImageUploadProps {
   onChange: (file: File | null) => void;
 }
