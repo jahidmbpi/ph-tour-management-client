@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useAllTourQuery } from "@/redux/fetures/tour/tour.api";
+import { Link } from "react-router-dom";
 
 export default function Tour() {
   const { data } = useAllTourQuery(undefined);
@@ -56,8 +57,8 @@ export default function Tour() {
                   </span>
                 )}
               </div>
-              <Button className="w-full" variant="default">
-                view details
+              <Button asChild className="w-full" variant="default">
+                <Link to={`/tour/${tour._id}`}> view details</Link>
               </Button>
             </div>
           </div>

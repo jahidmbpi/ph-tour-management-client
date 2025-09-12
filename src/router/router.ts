@@ -12,6 +12,7 @@ import About from "@/pages/public/About";
 import Register from "@/pages/public/Register";
 import LogIn from "@/pages/public/LogIn";
 import Tour from "@/pages/tour/Tour";
+import TourDetails from "@/pages/viewDetails/TourDetails";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: "/tour",
         Component: Tour,
+      },
+      {
+        path: "/tour/:id",
+        Component: TourDetails,
       },
     ],
   },

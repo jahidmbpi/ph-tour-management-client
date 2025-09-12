@@ -1,3 +1,4 @@
+import type { TourListResponse } from "@/pages/tour/tour.type";
 import { baseApi } from "../baseApi";
 
 export interface IResponse<T> {
@@ -17,7 +18,7 @@ export const tourApi = baseApi.injectEndpoints({
       }),
     }),
 
-    allTour: builder.query({
+    allTour: builder.query<TourListResponse, unknown>({
       query: (info) => ({
         url: "/tour/allTour",
         method: "GET",
