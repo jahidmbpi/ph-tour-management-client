@@ -126,6 +126,8 @@ export default function Add_tour() {
       ...data,
       startDate: formatISO(data.startDate),
       endDate: formatISO(data.endDate),
+      maxGuest: Number(data.maxGuest),
+      minAge: Number(data.minAge),
       included: data.included.map((item: { value: string }) => item.value),
       excluded: data.excluded.map((item: { value: string }) => item.value),
       amenities: data.amenities.map((item: { value: string }) => item.value),
@@ -138,10 +140,7 @@ export default function Add_tour() {
         formData.append("files", file as File);
       });
     }
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-    console.log(tourdata);
+
     try {
       const res = await createTour(formData).unwrap();
       console.log(res);
@@ -152,7 +151,7 @@ export default function Add_tour() {
   };
 
   return (
-    <div className="flex justify-center items-center mx-auto w-full h-screen">
+    <div className="flex justify-center items-center mx-auto w-full">
       <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>Add Tour</CardTitle>
@@ -351,7 +350,7 @@ export default function Add_tour() {
                         <FormControl>
                           <Input
                             placeholder="Enter your tour title"
-                            type="text"
+                            type="number"
                             {...field}
                           />
                         </FormControl>
@@ -368,7 +367,7 @@ export default function Add_tour() {
                         <FormControl>
                           <Input
                             placeholder="Enter your tour title"
-                            type="text"
+                            type="number"
                             {...field}
                           />
                         </FormControl>
@@ -448,7 +447,7 @@ export default function Add_tour() {
                   </Button>
                 </div>
                 {fields.map((field, index) => (
-                  <div className="flex gap-2">
+                  <div key={field.id} className="flex gap-2">
                     <FormField
                       key={field.id}
                       control={form.control}
@@ -481,9 +480,8 @@ export default function Add_tour() {
                   </Button>
                 </div>
                 {exludedFields.map((field, index) => (
-                  <div className="flex gap-2">
+                  <div key={field.id} className="flex gap-2">
                     <FormField
-                      key={field.id}
                       control={form.control}
                       name={`excluded.${index}.value`}
                       render={({ field }) => (
@@ -514,9 +512,8 @@ export default function Add_tour() {
                   </Button>
                 </div>
                 {exludAmenities.map((field, index) => (
-                  <div className="flex gap-2">
+                  <div key={field.id} className="flex gap-2">
                     <FormField
-                      key={field.id}
                       control={form.control}
                       name={`amenities.${index}.value`}
                       render={({ field }) => (
@@ -550,9 +547,8 @@ export default function Add_tour() {
                   </Button>
                 </div>
                 {exludTourPlan.map((field, index) => (
-                  <div className="flex gap-2">
+                  <div key={field.id} className="flex gap-2">
                     <FormField
-                      key={field.id}
                       control={form.control}
                       name={`tourPlan.${index}.value`}
                       render={({ field }) => (

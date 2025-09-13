@@ -16,11 +16,11 @@ export default function Tour() {
             key={tour._id}
             className="flex gap-5 w-full overflow-hidden border border-muted rounded-lg shadow-md p-2"
           >
-            <div className="w-2/5 flex-shrink-0">
+            <div className="w-2/5 aspect-video flex-shrink-0">
               <img
                 className="object-cover w-full h-full "
                 src={tour.images[0]}
-                alt=""
+                alt={tour.title}
               />
             </div>
             <div className="w-full space-y-1">
